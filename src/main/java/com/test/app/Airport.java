@@ -2,11 +2,14 @@ package com.test.app;
 
 import java.util.ArrayList;
 
+
 public class Airport {
 	ArrayList<Plane> hangar;
+	int capacity;
 	
 	public Airport() {
 		hangar = new ArrayList<Plane>();
+		capacity = 1;
 	}
 
 	public static void main(String[] args) {
@@ -14,8 +17,12 @@ public class Airport {
 
 	}
 	
-	public void landing(Plane plane) {
-		hangar.add(plane);
+	public  void landing(Plane plane) throws Exception {
+		if (hangar.size() < capacity) {
+			hangar.add(plane);
+		} else {
+			throw new Exception("Airport is full");
+		}
 	}
 
 	public void takeoff(Plane plane) {
