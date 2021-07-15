@@ -1,9 +1,13 @@
 package com.test.app;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
+
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 public class AirportTest {
 	Airport heathrow;
@@ -11,10 +15,15 @@ public class AirportTest {
 	Plane tap;
 	Plane ba;
 	ArrayList<Plane> expectedPlanes;
+	
+	@Mock
+	Weather weatherMock;
 
 	@Before
 	public void setUp() throws Exception {
-		heathrow = new Airport();
+		MockitoAnnotations.initMocks(this);
+		heathrow = new Airport(weatherMock);
+		when(weatherMock.getWeather()).thenReturn("sunny");
 		tap = new Plane();
 		ba = new Plane();
 		expectedPlanes = new ArrayList<Plane>();
@@ -47,7 +56,11 @@ public class AirportTest {
 			
 		}
 		
-		heathrow.takeoff(tap);
+		try {
+			heathrow.takeoff(tap);
+		} catch (Exception exception) {
+			
+		}
 		
 		assertEquals(expectedPlanes, heathrow.hangar); 
 		assertTrue(heathrow.hangar.isEmpty());	
@@ -80,9 +93,28 @@ public class AirportTest {
 	
 	@Test
 	public void overrideDefaultCapacity() {
-		cst = new Airport(2);
+		cst = new Airport(2, weatherMock);
 		assertEquals(2, cst.capacity);
 	}
 	
+	//	As an air traffic controller 
+	//	To ensure safety 
+	//	I want to prevent takeoff when weather is stormy
+	@Test
+	public void preventTakeOffWhenStormyWeather() {
+		Exception exception = new Exception();
+		
+		try {
+			heathrow.landing(tap);
+			// airport instance return stormy weather
+			when(weatherMock.getWeather()).thenReturn("stormy");
+			heathrow.takeoff(tap);
+		} catch (Exception e) {
+			exception = e;
+		}
+		
+		assertEquals("Not allowed to takeoff in stormy weather", exception.getMessage());	
+		assertEquals(1, heathrow.hangar.size());
+	}
 }
 
