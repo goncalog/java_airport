@@ -6,10 +6,16 @@ import java.util.ArrayList;
 public class Airport {
 	ArrayList<Plane> hangar;
 	int capacity;
+	int DEFAULTCAPACITY = 1;
 	
 	public Airport() {
 		hangar = new ArrayList<Plane>();
-		capacity = 1;
+		capacity = DEFAULTCAPACITY;
+	}
+	
+	public Airport(int updatedCapacity) {
+		hangar = new ArrayList<Plane>();
+		capacity = updatedCapacity;
 	}
 
 	public static void main(String[] args) {

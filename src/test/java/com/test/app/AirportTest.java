@@ -7,6 +7,7 @@ import org.junit.Test;
 
 public class AirportTest {
 	Airport heathrow;
+	Airport cst;
 	Plane tap;
 	Plane ba;
 	ArrayList<Plane> expectedPlanes;
@@ -71,6 +72,16 @@ public class AirportTest {
 		assertEquals(heathrow.capacity, heathrow.hangar.size());
 		assertEquals(1, heathrow.hangar.size());
 		assertEquals(-1, heathrow.hangar.indexOf(ba));
+	}
+	
+	//	As the system designer
+	//	So that the software can be used for many different airports
+	//	I would like a default airport capacity that can be overridden as appropriate
+	
+	@Test
+	public void overrideDefaultCapacity() {
+		cst = new Airport(2);
+		assertEquals(2, cst.capacity);
 	}
 	
 }
