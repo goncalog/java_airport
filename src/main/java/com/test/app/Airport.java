@@ -7,13 +7,13 @@ public class Airport {
 	int capacity;
 	int DEFAULTCAPACITY = 1;
 	Weather weather;
-	
+
 	public Airport(Weather currentWeather) {
 		hangar = new ArrayList<Plane>();
 		capacity = DEFAULTCAPACITY;
 		weather = currentWeather;
 	}
-	
+
 	public Airport(int updatedCapacity, Weather currentWeather) {
 		hangar = new ArrayList<Plane>();
 		capacity = updatedCapacity;
@@ -24,12 +24,17 @@ public class Airport {
 		// TODO Auto-generated method stub
 
 	}
-	
-	public  void landing(Plane plane) throws Exception {
-		if (hangar.size() >= capacity) {
-			throw new Exception("Airport is full");
+
+	public void landing(Plane plane) throws Exception {
+		if (weather.getWeather().equals("stormy")) {
+			throw new Exception("Not allowed to land in stormy weather");
 		} else {
-			hangar.add(plane);		
+
+			if (hangar.size() >= capacity) {
+				throw new Exception("Airport is full");
+			} else {
+				hangar.add(plane);
+			}
 		}
 	}
 
