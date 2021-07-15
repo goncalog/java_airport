@@ -18,4 +18,7 @@ public class Airport {
 		hangar.add(plane);
 	}
 
+	public void takeoff(Plane plane) {
+		hangar.remove(plane);
+	}
 }
